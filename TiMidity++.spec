@@ -1,6 +1,6 @@
 %define name	TiMidity++
 %define version	2.13.2
-%define release	%mkrel 17
+%define release	%mkrel 18
 
 # Stick to /usr/lib/timidity on any platform
 # XXX probably better in /usr/share/timidity for arch independent data
@@ -117,19 +117,6 @@ rm -rf %{buildroot}
 install -d %{buildroot}%{_datadir}/timidity
 install -m644 %{SOURCE1} -D %{buildroot}%{_sysconfdir}/timidity/timidity-custom.cfg
 
-#menu
-mkdir -p %{buildroot}%{_menudir}
-cat << EOF > %{buildroot}%{_menudir}/%{name}
-?package(%{name}): \
-	command="timidity -ig" \
-	icon="%{name}.png" \
-	needs="x11" \
-	title="TiMidity++" \
-	longtitle="MIDI file player" \
-	section="Multimedia/Sound" \
-	xdg="true"
-EOF
-
 install -d %{buildroot}%{_datadir}/applications
 cat <<EOF > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop
 [Desktop Entry]
@@ -145,9 +132,10 @@ Categories=Audio;Midi;X-MandrivaLinux-MoreApplications-Multimedia-Sound;
 EOF
 
 #icons
-install -m644 %{SOURCE11} -D %{buildroot}%{_miconsdir}/%{name}.png
-install -m644 %{SOURCE12} -D %{buildroot}%{_iconsdir}/%{name}.png
-install -m644 %{SOURCE13} -D %{buildroot}%{_liconsdir}/%{name}.png
+mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
+install -m644 %{SOURCE11} -D %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}.png
+install -m644 %{SOURCE12} -D %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}.png
+install -m644 %{SOURCE13} -D %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png
 
 # emacs mode
 install -m644 %{SOURCE2} -D $RPM_BUILD_ROOT%{_sysconfdir}/emacs/site-start.d/timidity.el
@@ -184,11 +172,10 @@ fi
 %dir %{timiditydir}
 %{timiditydir}/interface_[gn].*
 
-%{_menudir}/%{name}
 %{_datadir}/applications/mandriva-%{name}.desktop
-%{_liconsdir}/%{name}.png
-%{_iconsdir}/%{name}.png
-%{_miconsdir}/%{name}.png
+%{_iconsdir}/hicolor/16x16/apps/%{name}.png
+%{_iconsdir}/hicolor/32x32/apps/%{name}.png
+%{_iconsdir}/hicolor/48x48/apps/%{name}.png
 
 %files interfaces-extra
 %defattr(-,root,root)
