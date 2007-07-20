@@ -1,6 +1,6 @@
 %define name	TiMidity++
 %define version	2.13.2
-%define release	%mkrel 18
+%define release	%mkrel 19
 
 # Stick to /usr/lib/timidity on any platform
 # XXX probably better in /usr/share/timidity for arch independent data
@@ -51,7 +51,7 @@ Patch5:		TiMidity++-2.13.2-gcc4.patch
 Patch6:         Timidity-fix-portaudioV19-build.diff
 Patch7:		TiMidity++-2.13.2+flac-1.1.3-partial.patch
 Requires:	timidity-instruments = %{patch_pkg_version}
-BuildRequires:	alsa-lib-devel arts-devel emacs-bin esound-devel gtk2-devel
+BuildRequires:	alsa-lib-devel arts-devel autoconf emacs-bin esound-devel gtk2-devel
 BuildRequires:	jackit-devel lesstif-devel libao-devel libflac-devel >= 1.1.3
 BuildRequires:	liboggflac-devel nas-devel ncurses-devel oggvorbis-devel
 BuildRequires:	portaudio-devel speex-devel libtcl-devel libtk-devel
@@ -128,11 +128,10 @@ Icon=%{name}
 Terminal=false
 Type=Application
 StartupNotify=true
-Categories=Audio;Midi;X-MandrivaLinux-MoreApplications-Multimedia-Sound;
+Categories=Audio;Midi;
 EOF
 
 #icons
-mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
 install -m644 %{SOURCE11} -D %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}.png
 install -m644 %{SOURCE12} -D %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}.png
 install -m644 %{SOURCE13} -D %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png
@@ -149,10 +148,12 @@ rm -rf %{buildroot}
 
 %post
 %update_menus
+%update_icon_cache hicolor
 %{_sbindir}/update-alternatives --install %{_sysconfdir}/timidity/timidity.cfg timidity.cfg %{_sysconfdir}/timidity/timidity-custom.cfg 10
 
 %postun
 %clean_menus
+%clean_icon_cache hicolor
 if [ "$?" = "0" ]; then
 %{_sbindir}/update-alternatives --remove timidity.cfg %{_sysconfdir}/timidity/timidity-custom.cfg
 fi
