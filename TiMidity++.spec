@@ -1,6 +1,6 @@
 %define name	TiMidity++
 %define version	2.13.2
-%define release	%mkrel 21
+%define release	%mkrel 22
 
 # Stick to /usr/lib/timidity on any platform
 # XXX probably better in /usr/share/timidity for arch independent data
@@ -24,7 +24,7 @@ Name:		%{name}
 Version:	%{version}
 Release:	%{release}
 URL:		http://timidity.sourceforge.net/
-License:	GPL
+License:	GPLv2+
 Group:		Sound
 
 Source0:	%{name}-%{version}.tar.bz2
@@ -68,7 +68,6 @@ Summary:	Extra GUI/text mode interfaces for TiMidity
 Group:		Sound
 Requires:	%{name} = %{version}-%{release}
 Requires:	emacs-bin
-Requires:	tclx
 
 %description	interfaces-extra
 TiMidity is a MIDI to WAVE converter and player that uses Gravis 
@@ -161,7 +160,7 @@ fi
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS ChangeLog COPYING INSTALL NEWS README doc/C/FAQ
+%doc AUTHORS ChangeLog INSTALL NEWS README doc/C/FAQ
 %doc doc/C/README.{alsaseq,dl,sf,m2m,mts}
 %config(noreplace) %{_sysconfdir}/timidity
 %{_bindir}/timidity
@@ -170,7 +169,6 @@ fi
 %{_datadir}/timidity
 %dir %{timiditydir}
 %{timiditydir}/interface_[gn].*
-
 %{_datadir}/applications/mandriva-%{name}.desktop
 %{_iconsdir}/hicolor/16x16/apps/%{name}.png
 %{_iconsdir}/hicolor/32x32/apps/%{name}.png
@@ -185,5 +183,4 @@ fi
 %{timiditydir}/*.tcl
 %{timiditydir}/tclIndex
 %{timiditydir}/bitmaps
-
 
