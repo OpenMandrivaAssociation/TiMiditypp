@@ -26,6 +26,7 @@ Release:	%{release}
 URL:		http://timidity.sourceforge.net/
 License:	GPLv2+
 Group:		Sound
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 Source0:	%{name}-%{version}.tar.bz2
 Source1:	http://www.timidity.jp/dist/cfg/timidity.cfg
