@@ -1,6 +1,6 @@
 %define name	TiMidity++
 %define version	2.13.2
-%define release	%mkrel 22
+%define release	%mkrel 23
 
 # Stick to /usr/lib/timidity on any platform
 # XXX probably better in /usr/share/timidity for arch independent data
@@ -152,11 +152,11 @@ rm -rf %{buildroot}
 %postun
 %clean_menus
 %clean_icon_cache hicolor
-if [ "$?" = "0" ]; then
+if [ "$1" = "0" ]; then
 %{_sbindir}/update-alternatives --remove timidity.cfg %{_sysconfdir}/timidity/timidity-custom.cfg
 fi
 
-%triggerpostun -- %{name} <= 2.13.2-1mdk
+%triggerpostun -- %{name} <= 2.13.2-22mdv
 %{_sbindir}/update-alternatives --install %{_sysconfdir}/timidity/timidity.cfg timidity.cfg %{_sysconfdir}/timidity/timidity-custom.cfg 10
 
 %files
