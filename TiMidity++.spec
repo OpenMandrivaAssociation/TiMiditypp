@@ -145,13 +145,17 @@ install -m644 doc/ja_JP.eucJP/timidity.cfg.5 %{buildroot}%{_mandir}/ja/man1/timi
 rm -rf %{buildroot}
 
 %post
+%if %mdkversion < 200900
 %update_menus
 %update_icon_cache hicolor
+%endif
 %{_sbindir}/update-alternatives --install %{_sysconfdir}/timidity/timidity.cfg timidity.cfg %{_sysconfdir}/timidity/timidity-custom.cfg 10
 
 %postun
+%if %mdkversion < 200900
 %clean_menus
 %clean_icon_cache hicolor
+%endif
 if [ "$1" = "0" ]; then
 %{_sbindir}/update-alternatives --remove timidity.cfg %{_sysconfdir}/timidity/timidity-custom.cfg
 fi
