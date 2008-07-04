@@ -101,6 +101,9 @@ touch interface/tclIndex
 # alsa sequencer interface must be static, otherwise it can't be daemonized,
 # nor can it use sched_setscheduler() to set real time priority
 
+# why?
+export CPPFLAGS="-I%{_includedir}/X11"
+
 %configure2_5x \
 	--enable-audio=oss,alsa,nas,arts,esd,portaudio,jack,ao,vorbis,flac,speex \
 	--enable-dynamic=dynamic,ncurses,slang,motif,tcltk,emacs,xaw,xskin,gtk \
@@ -188,4 +191,3 @@ fi
 %{timiditydir}/*.tcl
 %{timiditydir}/tclIndex
 %{timiditydir}/bitmaps
-
