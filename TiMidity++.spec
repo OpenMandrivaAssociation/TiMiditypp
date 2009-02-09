@@ -50,8 +50,10 @@ Patch5:		TiMidity++-2.13.2-gcc4.patch
 #(nl) CVS Fix Build against portaudio V19
 Patch6:         Timidity-fix-portaudioV19-build.diff
 Patch7:		TiMidity++-2.13.2+flac-1.1.3-partial.patch
+Patch8: timidity-2.13.2-tcl-legacy.patch
+Patch9: timidity-2.13.2-wformat.patch
 Requires:	timidity-instruments = %{patch_pkg_version}
-BuildRequires:	alsa-lib-devel arts-devel autoconf emacs-bin esound-devel gtk2-devel
+BuildRequires:	alsa-lib-devel autoconf emacs-bin esound-devel gtk2-devel
 BuildRequires:	jackit-devel lesstif-devel libao-devel libflac-devel >= 1.1.3
 BuildRequires:	liboggflac-devel nas-devel ncurses-devel oggvorbis-devel
 BuildRequires:	portaudio-devel speex-devel libtcl-devel libtk-devel
@@ -89,23 +91,20 @@ Motif(or Lesstif), Tcl/Tk, emacs etc.
 %patch5 -p1 -b .gcc4
 %patch6 -p0 -b .portaudioV19
 %patch7 -p1 -b .flac
+%patch8 -p0 -b .tcl_legacy
+%patch9 -p0 -b .wformat
+
+%build
 autoconf
 
 # little ugly trick to force install of tclIndex, running wish requires
 # X display
 touch interface/tclIndex
 
-%build
-# (Abel) options are very confusing: interface names after --enable-dynamic are
-# dynamically loaded, while those after --enable-interface are built-in
-# alsa sequencer interface must be static, otherwise it can't be daemonized,
-# nor can it use sched_setscheduler() to set real time priority
 
-# why?
-export CPPFLAGS="-I%{_includedir}/X11"
 
 %configure2_5x \
-	--enable-audio=oss,alsa,nas,arts,esd,portaudio,jack,ao,vorbis,flac,speex \
+	--enable-audio=oss,alsa,nas,esd,portaudio,jack,ao,vorbis,flac,speex \
 	--enable-dynamic=dynamic,ncurses,slang,motif,tcltk,emacs,xaw,xskin,gtk \
 	--enable-interface=alsaseq \
 	--enable-network \
