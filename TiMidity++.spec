@@ -26,8 +26,6 @@ Release:	%{release}
 URL:		http://timidity.sourceforge.net/
 License:	GPLv2+
 Group:		Sound
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
-
 Source0:	%{name}-%{version}.tar.bz2
 Source1:	http://www.timidity.jp/dist/cfg/timidity.cfg
 Source2:	timidity-emacs-mode.el
@@ -53,12 +51,28 @@ Patch7:		TiMidity++-2.13.2+flac-1.1.3-partial.patch
 Patch8: timidity-2.13.2-tcl-legacy.patch
 Patch9: timidity-2.13.2-wformat.patch
 Requires:	timidity-instruments = %{patch_pkg_version}
-BuildRequires:	alsa-lib-devel autoconf emacs-bin esound-devel gtk2-devel
-BuildRequires:	jackit-devel lesstif-devel libao-devel libflac-devel >= 1.1.3
-BuildRequires:	liboggflac-devel nas-devel ncurses-devel oggvorbis-devel
-BuildRequires:	portaudio-devel speex-devel libtcl-devel libtk-devel
-BuildRequires:	libxaw-devel slang-devel
+BuildRequires:	alsa-lib-devel
+BuildRequires:	autoconf
+BuildRequires:	emacs-bin
+BuildRequires:	esound-devel
+BuildRequires:	gtk2-devel
+BuildRequires:	jackit-devel
+BuildRequires:	lesstif-devel
+BuildRequires:	libao-devel
+BuildRequires:	libflac-devel >= 1.1.3
+BuildRequires:	liboggflac-devel
+BuildRequires:	nas-devel
+BuildRequires:	ncurses-devel
+BuildRequires:	oggvorbis-devel
+BuildRequires:	portaudio-devel
+BuildRequires:	speex-devel
+BuildRequires:	tcl-devel
+BuildRequires:	tk-devel
+BuildRequires:	libxaw-devel
+BuildRequires:	slang-devel
 BuildConflicts:	Xaw3d-devel
+BuildRoot:	%{_tmppath}/%{name}-%{version}
+
 
 %description
 TiMidity is a MIDI to WAVE converter and player that uses Gravis 
