@@ -1,6 +1,6 @@
 %define name	TiMidity++
 %define version	2.13.2
-%define release	%mkrel 30
+%define release	%mkrel 31
 
 # Stick to /usr/lib/timidity on any platform
 # XXX probably better in /usr/share/timidity for arch independent data
