@@ -151,7 +151,7 @@ install -m644 %{SOURCE12} -D %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}
 install -m644 %{SOURCE13} -D %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png
 
 # emacs mode
-install -m644 %{SOURCE2} -D $RPM_BUILD_ROOT%{_sysconfdir}/emacs/site-start.d/timidity.el
+install -m644 %{SOURCE2} -D %{buildroot}%{_sysconfdir}/emacs/site-start.d/timidity.el
 
 # japanese manpages
 install -m644 doc/ja_JP.eucJP/timidity.1 -D %{buildroot}%{_mandir}/ja/man1/timidity.1
