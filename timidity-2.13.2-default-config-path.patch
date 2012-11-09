@@ -1,0 +1,34 @@
+--- TiMidity++-2.13.2/doc/C/timidity.cfg.5.bak	2004-04-25 17:35:50.000000000 +0800
++++ TiMidity++-2.13.2/doc/C/timidity.cfg.5	2005-02-15 19:18:26.136996488 +0800
+@@ -470,9 +470,9 @@
+ will read from the output of cat fild.mid.
+ .SH FILES
+ .TP
+-.B /etc/timidity.cfg
++.B /etc/timidity/timidity.cfg
+ .TP
+-.B /usr/local/share/timidity/timidity.cfg
++.B /usr/share/timidity/timidity.cfg
+ .SH SEE ALSO
+ timidity(1), lsmidiprog(1), mididump(1), patinfo(1), sf2text(1), wav2pat(1)
+ .SH COPYRIGHT
+--- TiMidity++-2.13.2/timidity/timidity.h.bak	2004-05-02 11:28:05.000000000 +0800
++++ TiMidity++-2.13.2/timidity/timidity.h	2005-02-15 19:16:11.322491408 +0800
+@@ -41,7 +41,8 @@
+ 
+ /* You could specify a complete path, e.g. "/etc/timidity.cfg", and
+    then specify the library directory in the configuration file. */
+-/* #define CONFIG_FILE "/etc/timidity.cfg" */
++#define CONFIG_FILE "/etc/timidity/timidity.cfg"
++#if 0
+ #ifndef CONFIG_FILE
+ #  ifdef DEFAULT_PATH
+ #    define CONFIG_FILE DEFAULT_PATH "/timidity.cfg"
+@@ -49,6 +50,7 @@
+ #    define CONFIG_FILE PKGDATADIR "/timidity.cfg"
+ #  endif /* DEFAULT_PATH */
+ #endif /* CONFIG_FILE */
++#endif
+ 
+ 
+ /* Filename extension, followed by command to run decompressor so that

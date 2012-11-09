@@ -1,0 +1,11 @@
+--- interface/tk_c.c.orig	2009-02-09 17:57:06.000000000 -0200
++++ interface/tk_c.c	2009-02-09 18:06:22.000000000 -0200
+@@ -50,6 +50,8 @@
+ #include <sys/ipc.h>
+ #include <sys/shm.h>
+ #include <sys/sem.h>
++// Legacy code need this definition -> see man page for TclInterp
++#define USE_INTERP_RESULT
+ #include <tcl.h>
+ #include <tk.h>
+ #include <sys/wait.h>

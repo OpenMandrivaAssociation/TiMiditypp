@@ -1,0 +1,31 @@
+--- interface/wrdt_tty.c.orig	2009-02-09 17:54:57.000000000 -0200
++++ interface/wrdt_tty.c	2009-02-09 17:55:45.000000000 -0200
+@@ -292,7 +292,7 @@
+ 	  fillbuf[0]=0x1b;
+ 	  fillbuf[1]='7';
+ 	  fillbuf[2]=0;
+-	  printf(fillbuf);
++	  printf( "%s", fillbuf);
+ 
+ 	  /* 0-7: normal, 8-16: reverse */
+ 	  if(wrd_args[4] <= 7)
+@@ -308,7 +308,7 @@
+ 	  fillbuf[0]=0x1b;
+ 	  fillbuf[1]='8';
+ 	  fillbuf[2]=0;
+-	  printf(fillbuf);
++	  printf( "%s", fillbuf );
+ 	  printf("\033[%dm",txtclr_preserve);
+ 	  fflush(stdout);
+ 	}
+--- timidity/timidity.c.orig	2009-02-09 18:06:44.000000000 -0200
++++ timidity/timidity.c	2009-02-09 18:07:36.000000000 -0200
+@@ -3751,7 +3751,7 @@
+ 			if (*(strchr(h, '%') + 1) != '%')
+ 				fprintf(fp, h, help_args[j++]);
+ 			else
+-				fprintf(fp, h);
++				fprintf(fp, "%s", h);
+ 		} else
+ 			fputs(h, fp);
+ 		fputs(NLS, fp);
