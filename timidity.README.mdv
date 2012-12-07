@@ -1,0 +1,19 @@
+This version of TiMidity++ has changed config file location to
+/etc/timidity/timidity.cfg . However, when modifying timidity config
+to use your own Gravis patch or SoundFont, DON'T JUST MODIFY THIS
+CONFIG FILE! It's because timidity.cfg is merely a symbolic link
+pointing to one of various other files inside the same directory.
+
+To use custom setting, please follow the 2 steps below:
+
+1. Modify /etc/timidity/timidity-custom.cfg
+2. Use update-alternatives to point timidity.cfg to above config:
+
+    update-alternatives --config timidity.cfg
+
+Other config files are overwritten each time RPM update happens,
+so your changes will be lost.
+
+If you want to use some default patch set as a basis, you can copy
+the corresponding config file to timidity-custom.cfg and modify it.
+
