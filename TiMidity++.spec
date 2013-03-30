@@ -1,7 +1,3 @@
-%define name	TiMidity++
-%define version	2.13.2
-%define release	32
-
 # Stick to /usr/lib/timidity on any platform
 # XXX probably better in /usr/share/timidity for arch independent data
 # but it's not worth splitting that much
@@ -20,13 +16,13 @@
 #
 
 Summary:	MIDI to WAVE converter and player
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
+Name:		TiMidity++
+Version:	2.14.0
+Release:	1
 URL:		http://timidity.sourceforge.net/
 License:	GPLv2+
 Group:		Sound
-Source0:	%{name}-%{version}.tar.bz2
+Source0:	http://freefr.dl.sourceforge.net/project/timidity/TiMidity%2B%2B/TiMidity%2B%2B-%version/TiMidity%2B%2B-%version.tar.xz
 Source1:	http://www.timidity.jp/dist/cfg/timidity.cfg
 Source2:	timidity-emacs-mode.el
 Source3:	timidity.README.mdv
@@ -35,21 +31,7 @@ Source12:	%{name}32.png
 Source13:	%{name}16.png
 # (Abel) change default config path to /etc/timidity/timidity.cfg
 Patch0:		timidity-2.13.2-default-config-path.patch
-# (Abel) it checked for speex.h, not speex/speex.h
-Patch1:		timidity-2.13.2-speex-header-path.patch
-# (Abel) fix timidity path in .el file and install .el file when
-#        enabling dynamic module
-Patch2:		timidity-2.13.2-emacs.patch
-# (Abel) fix wishx path in tcl scripts
-Patch3:		timidity-2.13.2-tcl.patch
-# (Abel) CVS fixes for 2.13.2
-Patch4:		timidity-2.13.2-cvs-fixes.patch
-Patch5:		TiMidity++-2.13.2-gcc4.patch
-#(nl) CVS Fix Build against portaudio V19
-Patch6:         Timidity-fix-portaudioV19-build.diff
-Patch7:		TiMidity++-2.13.2+flac-1.1.3-partial.patch
 Patch8: timidity-2.13.2-tcl-legacy.patch
-Patch9: timidity-2.13.2-wformat.patch
 Requires:	timidity-instruments = %{patch_pkg_version}
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	autoconf
@@ -97,15 +79,7 @@ Motif(or Lesstif), Tcl/Tk, emacs etc.
 %prep
 %setup -q
 %patch0 -p1 -b .default-path
-%patch1 -p1 -b .speex-header
-%patch2 -p1 -b .emacs
-%patch3 -p1
-%patch4 -p1 -b .cvs
-%patch5 -p1 -b .gcc4
-%patch6 -p0 -b .portaudioV19
-%patch7 -p1 -b .flac
 %patch8 -p0 -b .tcl_legacy
-%patch9 -p0 -b .wformat
 
 %build
 autoconf
@@ -188,7 +162,7 @@ fi
 %lang(ja) %{_mandir}/ja/man?/*
 %{_datadir}/timidity
 %dir %{timiditydir}
-%{timiditydir}/interface_[gn].*
+%timiditydir/if_ncurses.so
 %{_datadir}/applications/mandriva-%{name}.desktop
 %{_iconsdir}/hicolor/16x16/apps/%{name}.png
 %{_iconsdir}/hicolor/32x32/apps/%{name}.png
@@ -198,8 +172,14 @@ fi
 %defattr(-,root,root)
 %doc doc/C/README.{tk,xaw,xskin}
 %config(noreplace) %{_sysconfdir}/emacs/site-start.d/*.el
-%{timiditydir}/interface_[aeikms].*
 %{_datadir}/emacs/site-lisp/*.el
+%timiditydir/if_emacs.so
+%timiditydir/if_gtk.so
+%timiditydir/if_motif.so
+%timiditydir/if_slang.so
+%timiditydir/if_tcltk.so
+%timiditydir/if_xaw.so
+%timiditydir/if_xskin.so
 %{timiditydir}/*.tcl
 %{timiditydir}/tclIndex
 %{timiditydir}/bitmaps
