@@ -18,7 +18,7 @@
 Summary:	MIDI to WAVE converter and player
 Name:		TiMidity++
 Version:	2.14.0
-Release:	3
+Release:	4
 URL:		http://timidity.sourceforge.net/
 License:	GPLv2+
 Group:		Sound
