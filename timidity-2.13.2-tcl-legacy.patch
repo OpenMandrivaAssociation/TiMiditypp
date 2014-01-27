@@ -1,11 +1,12 @@
---- interface/tk_c.c.orig	2009-02-09 17:57:06.000000000 -0200
-+++ interface/tk_c.c	2009-02-09 18:06:22.000000000 -0200
-@@ -50,6 +50,8 @@
- #include <sys/ipc.h>
- #include <sys/shm.h>
+--- timidity/interface/tk_c.c.tcl_legacy	2014-01-27 20:52:46.443324172 +0100
++++ timidity/interface/tk_c.c	2014-01-27 20:53:25.723325980 +0100
+@@ -48,6 +48,9 @@
  #include <sys/sem.h>
+ #include <sys/wait.h>
+ 
 +// Legacy code need this definition -> see man page for TclInterp
 +#define USE_INTERP_RESULT
- #include <tcl.h>
- #include <tk.h>
- #include <sys/wait.h>
++
+ #include "timidity.h"
+ #include "common.h"
+ #include "instrum.h"

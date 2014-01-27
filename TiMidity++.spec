@@ -10,6 +10,8 @@
 #
 %define patch_pkg_version 2
 
+%define git 20140127
+
 #
 # NOTE: When updating config for midia patch set, please refresh both
 # config file included here and the one in patch pkg
@@ -17,21 +19,28 @@
 
 Summary:	MIDI to WAVE converter and player
 Name:		TiMidity++
-Version:	2.14.0
-Release:	6
+Version:	2.14.1
+%if "%git" == ""
+Release:	1
+Source0:	http://freefr.dl.sourceforge.net/project/timidity/TiMidity%2B%2B/TiMidity%2B%2B-%version/TiMidity%2B%2B-%version.tar.xz
+%else
+Release:	0.%{git}.1
+# git clone git://git.code.sf.net/p/timidity/git timidity
+Source0:	timidity-%{git}.tar.xz
+%endif
 URL:		http://timidity.sourceforge.net/
 License:	GPLv2+
 Group:		Sound
-Source0:	http://freefr.dl.sourceforge.net/project/timidity/TiMidity%2B%2B/TiMidity%2B%2B-%version/TiMidity%2B%2B-%version.tar.xz
 Source1:	http://www.timidity.jp/dist/cfg/timidity.cfg
 Source2:	timidity-emacs-mode.el
 Source3:	timidity.README.mdv
+Source5:	setup-virmidi.c
 Source11:	%{name}48.png
 Source12:	%{name}32.png
 Source13:	%{name}16.png
 # (Abel) change default config path to /etc/timidity/timidity.cfg
 Patch0:		timidity-2.13.2-default-config-path.patch
-Patch8: timidity-2.13.2-tcl-legacy.patch
+Patch8:		timidity-2.13.2-tcl-legacy.patch
 Requires:	timidity-instruments = %{patch_pkg_version}
 BuildRequires:	pkgconfig(alsa)
 BuildRequires:	autoconf
@@ -43,7 +52,8 @@ BuildRequires:	pkgconfig(ao)
 BuildRequires:	pkgconfig(flac) >= 1.1.3
 BuildRequires:	nas-devel
 BuildRequires:	pkgconfig(ncurses)
-BuildRequires:	oggvorbis-devel
+BuildRequires:	pkgconfig(ogg)
+BuildRequires:	pkgconfig(vorbis)
 BuildRequires:	pkgconfig(portaudio-2.0)
 BuildRequires:	pkgconfig(speex)
 BuildRequires:	pkgconfig(tcl)
@@ -75,18 +85,25 @@ Install this if you want to use TiMidity under other interfaces, such as
 Motif(or Lesstif), Tcl/Tk, emacs etc.
 
 %prep
+%if "%git" != ""
+%setup -q -n timidity
+%else
 %setup -q
-%patch0 -p1 -b .default-path
-%patch8 -p0 -b .tcl_legacy
+%endif
+%patch0 -p1 -b .default-path~
+%patch8 -p1 -b .tcl_legacy~
 
 %build
+touch ChangeLog
+libtoolize --force
+aclocal -I autoconf
+autoheader
+automake --add-missing --foreign
 autoconf
 
 # little ugly trick to force install of tclIndex, running wish requires
 # X display
 touch interface/tclIndex
-
-
 
 %configure2_5x \
 	--enable-audio=oss,alsa,nas,portaudio,jack,ao,vorbis,flac,speex \
@@ -97,11 +114,15 @@ touch interface/tclIndex
 
 %make LDFLAGS="-laudio -lFLAC"
 
+%__cc %optflags -std=gnu99 -o setup-virmidi %{SOURCE5}
+
 %install
 rm -rf %{buildroot}
 %makeinstall_std
 install -d %{buildroot}%{_datadir}/timidity
 install -m644 %{SOURCE1} -D %{buildroot}%{_sysconfdir}/timidity/timidity-custom.cfg
+
+install -m 4755 setup-virmidi %{buildroot}%{_bindir}/
 
 install -d %{buildroot}%{_datadir}/applications
 cat <<EOF > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop
@@ -128,6 +149,34 @@ install -m644 %{SOURCE2} -D $RPM_BUILD_ROOT%{_sysconfdir}/emacs/site-start.d/tim
 install -m644 doc/ja_JP.eucJP/timidity.1 -D %{buildroot}%{_mandir}/ja/man1/timidity.1
 install -m644 doc/ja_JP.eucJP/timidity.cfg.5 %{buildroot}%{_mandir}/ja/man1/timidity.cfg.5
 
+# create systemd service
+mkdir -p %buildroot%_prefix/lib/systemd/user
+cat >%buildroot%_prefix/lib/systemd/user/timidity.service <<"EOF"
+[Unit]
+Description=TiMidity++ MIDI playback system
+After=sound.target
+
+[Service]
+ExecStart=%_bindir/timidity -iA -Os
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+cat >%buildroot%_prefix/lib/systemd/user/virmidi.service <<"EOF"
+[Unit]
+Description=Virtual MIDI device
+After=sound.target
+After=timidity.target
+
+[Service]
+Type=oneshot
+ExecStart=%_bindir/setup-virmidi
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
 %post
 %{_sbindir}/update-alternatives --install %{_sysconfdir}/timidity/timidity.cfg timidity.cfg %{_sysconfdir}/timidity/timidity-custom.cfg 10
 
@@ -145,6 +194,7 @@ fi
 %doc doc/C/README.{alsaseq,dl,sf,m2m,mts}
 %config(noreplace) %{_sysconfdir}/timidity
 %{_bindir}/timidity
+%attr(4755,root,root) %{_bindir}/setup-virmidi
 %{_mandir}/man?/timidity*
 %lang(ja) %{_mandir}/ja/man?/*
 %{_datadir}/timidity
@@ -154,6 +204,7 @@ fi
 %{_iconsdir}/hicolor/16x16/apps/%{name}.png
 %{_iconsdir}/hicolor/32x32/apps/%{name}.png
 %{_iconsdir}/hicolor/48x48/apps/%{name}.png
+%_prefix/lib/systemd/user/*.service
 
 %files interfaces-extra
 %defattr(-,root,root)
@@ -169,4 +220,3 @@ fi
 %timiditydir/if_xskin.so
 %{timiditydir}/*.tcl
 %{timiditydir}/tclIndex
-%{timiditydir}/bitmaps

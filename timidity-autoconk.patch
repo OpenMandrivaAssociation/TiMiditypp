@@ -1,0 +1,11 @@
+--- timidity/configure.in.omv~	2014-01-27 21:15:22.856675546 +0100
++++ timidity/configure.in	2014-01-27 21:15:29.926675648 +0100
+@@ -1736,7 +1736,7 @@ CONFIG_INTERFACE(slang,SLANG,s,
+     [ enable_slang=no
+       AC_MSG_WARN(slang interface is not enabled)
+     ])
+-    AC_CHECK_HEADERS(slang/slang.h slang.h)
++    AC_CHECK_HEADERS([slang/slang.h slang.h])
+   ],
+   [ case "$target" in
+        *openbsd*)
