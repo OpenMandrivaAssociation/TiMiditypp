@@ -40,6 +40,7 @@ Source12:	%{name}32.png
 Source13:	%{name}16.png
 # (Abel) change default config path to /etc/timidity/timidity.cfg
 Patch0:		timidity-2.13.2-default-config-path.patch
+Patch1:		timidity-clang-buildfixes.patch
 Patch8:		timidity-2.13.2-tcl-legacy.patch
 Requires:	timidity-instruments = %{patch_pkg_version}
 BuildRequires:	pkgconfig(alsa)
@@ -90,8 +91,7 @@ Motif(or Lesstif), Tcl/Tk, emacs etc.
 %else
 %setup -q
 %endif
-%patch0 -p1 -b .default-path~
-%patch8 -p1 -b .tcl_legacy~
+%apply_patches
 
 %build
 touch ChangeLog
@@ -105,7 +105,7 @@ autoconf
 # X display
 touch interface/tclIndex
 
-%configure2_5x \
+%configure \
 	--enable-audio=oss,alsa,nas,portaudio,jack,ao,vorbis,flac,speex \
 	--enable-dynamic=dynamic,ncurses,slang,motif,tcltk,emacs,xaw,xskin,gtk \
 	--enable-interface=alsaseq \
