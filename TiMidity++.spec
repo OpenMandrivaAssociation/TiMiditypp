@@ -17,6 +17,8 @@
 # config file included here and the one in patch pkg
 #
 
+%define _disable_lto 1
+
 Summary:	MIDI to WAVE converter and player
 Name:		TiMidity++
 Version:	2.14.1
