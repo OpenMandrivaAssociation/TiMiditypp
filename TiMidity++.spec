@@ -26,7 +26,7 @@ Version:	2.14.2
 Release:	5
 Source0:	http://freefr.dl.sourceforge.net/project/timidity/TiMidity%2B%2B/TiMidity%2B%2B-%version/TiMidity%2B%2B-%version.tar.xz
 %else
-Release:	0.%{git}.1
+Release:	0.%{git}.2
 # git clone git://git.code.sf.net/p/timidity/git timidity
 Source0:	timidity-%{git}.tar.xz
 %endif
@@ -50,7 +50,7 @@ BuildRequires:	autoconf
 BuildRequires:	emacs-bin
 BuildRequires:	pkgconfig(gtk+-x11-2.0)
 BuildRequires:	pkgconfig(jack)
-BuildRequires:	lesstif-devel
+BuildRequires:	motif-devel
 BuildRequires:	pkgconfig(ao)
 BuildRequires:	pkgconfig(flac) >= 1.1.3
 BuildRequires:	nas-devel
