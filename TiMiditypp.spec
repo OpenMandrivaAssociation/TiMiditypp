@@ -23,7 +23,7 @@ Summary:	MIDI to WAVE converter and player
 Name:		TiMidity++
 Version:	2.14.2
 %if "%git" == ""
-Release:	5
+Release:	6
 Source0:	http://freefr.dl.sourceforge.net/project/timidity/TiMidity%2B%2B/TiMidity%2B%2B-%version/TiMidity%2B%2B-%version.tar.xz
 %else
 Release:	0.%{git}.2
