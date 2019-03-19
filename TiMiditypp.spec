@@ -10,7 +10,7 @@
 #
 %define patch_pkg_version 2
 
-%define git 20140127
+%define git %{nil}
 
 #
 # NOTE: When updating config for midia patch set, please refresh both
@@ -21,12 +21,12 @@
 
 Summary:	MIDI to WAVE converter and player
 Name:		TiMidity++
-Version:	2.14.2
+Version:	2.15.0
 %if "%git" == ""
-Release:	7
+Release:	1
 Source0:	http://freefr.dl.sourceforge.net/project/timidity/TiMidity%2B%2B/TiMidity%2B%2B-%version/TiMidity%2B%2B-%version.tar.xz
 %else
-Release:	0.%{git}.2
+Release:	0.%{git}.1
 # git clone git://git.code.sf.net/p/timidity/git timidity
 Source0:	timidity-%{git}.tar.xz
 %endif
