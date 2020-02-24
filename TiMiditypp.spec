@@ -1,7 +1,8 @@
 # Stick to /usr/lib/timidity on any platform
 # XXX probably better in /usr/share/timidity for arch independent data
 # but it's not worth splitting that much
-%define timiditydir	%{_prefix}/lib/timidity
+
+%define timiditydir	/usr/lib/timidity
 
 #
 # When big change is involved (e.g. timidity.cfg change location),
@@ -108,11 +109,19 @@ autoconf
 touch interface/tclIndex
 
 %configure \
+	--with-ao-libraries=%{_libdir} \
+	--with-libFLAC-libraries=%{_libdir} \
+	--with-ogg-libraries=%{_libdir} \
+	--with-libOggFLAC-libraries=%{_libdir} \
+	--with-vorbis-libraries=%{_libdir} \
 	--enable-audio=oss,alsa,nas,portaudio,jack,ao,vorbis,flac,speex \
 	--enable-dynamic=dynamic,ncurses,slang,motif,tcltk,emacs,xaw,xskin,gtk \
 	--enable-interface=alsaseq \
 	--enable-network \
-	--enable-server
+	--enable-server \
+	--with-libraries=%{_libdir}
+
+
 
 %make LDFLAGS="-laudio -lFLAC"
 
