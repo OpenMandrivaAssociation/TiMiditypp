@@ -24,7 +24,7 @@ Summary:	MIDI to WAVE converter and player
 Name:		TiMidity++
 Version:	2.15.0
 %if "%git" == ""
-Release:	2
+Release:	3
 Source0:	http://freefr.dl.sourceforge.net/project/timidity/TiMidity%2B%2B/TiMidity%2B%2B-%version/TiMidity%2B%2B-%version.tar.xz
 %else
 Release:	0.%{git}.1
@@ -161,32 +161,33 @@ install -m644 doc/ja_JP.eucJP/timidity.1 -D %{buildroot}%{_mandir}/ja/man1/timid
 install -m644 doc/ja_JP.eucJP/timidity.cfg.5 %{buildroot}%{_mandir}/ja/man1/timidity.cfg.5
 
 # create systemd service
-mkdir -p %buildroot%_prefix/lib/systemd/user
+mkdir -p %buildroot%_prefix/lib/systemd/user/default.target.wants
 cat >%buildroot%_prefix/lib/systemd/user/timidity.service <<"EOF"
 [Unit]
 Description=TiMidity++ MIDI playback system
-After=sound.target
+After=pulseaudio.socket
 
 [Service]
-ExecStart=%_bindir/timidity -iA -Os
+ExecStart=%_bindir/timidity -iA -OO
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 EOF
 
 cat >%buildroot%_prefix/lib/systemd/user/virmidi.service <<"EOF"
 [Unit]
 Description=Virtual MIDI device
-After=sound.target
-After=timidity.target
+After=timidity.service
 
 [Service]
 Type=oneshot
 ExecStart=%_bindir/setup-virmidi
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 EOF
+ln -s ../timidity.service %buildroot%_prefix/lib/systemd/user/default.target.wants/timidity.service
+ln -s ../virmidi.service %buildroot%_prefix/lib/systemd/user/default.target.wants/virmidi.service
 
 %post
 %{_sbindir}/update-alternatives --install %{_sysconfdir}/timidity/timidity.cfg timidity.cfg %{_sysconfdir}/timidity/timidity-custom.cfg 10
@@ -216,6 +217,7 @@ fi
 %{_iconsdir}/hicolor/32x32/apps/%{name}.png
 %{_iconsdir}/hicolor/48x48/apps/%{name}.png
 %_prefix/lib/systemd/user/*.service
+%_prefix/lib/systemd/user/default.target.wants/*.service
 
 %files interfaces-extra
 %defattr(-,root,root)
