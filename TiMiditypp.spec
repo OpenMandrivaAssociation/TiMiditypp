@@ -24,7 +24,7 @@ Summary:	MIDI to WAVE converter and player
 Name:		TiMidity++
 Version:	2.15.0
 %if "%git" == ""
-Release:	3
+Release:	4
 Source0:	http://freefr.dl.sourceforge.net/project/timidity/TiMidity%2B%2B/TiMidity%2B%2B-%version/TiMidity%2B%2B-%version.tar.xz
 %else
 Release:	0.%{git}.1
@@ -44,6 +44,7 @@ Source13:	%{name}16.png
 # (Abel) change default config path to /etc/timidity/timidity.cfg
 Patch0:		timidity-2.13.2-default-config-path.patch
 Patch1:		timidity-clang-buildfixes.patch
+Patch2:		TiMidity-2.15.0-compile.patch
 Patch8:		timidity-2.13.2-tcl-legacy.patch
 Requires:	timidity-instruments = %{patch_pkg_version}
 BuildRequires:	pkgconfig(alsa)
