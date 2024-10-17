@@ -31,7 +31,7 @@ Release:	0.%{git}.1
 # git clone git://git.code.sf.net/p/timidity/git timidity
 Source0:	timidity-%{git}.tar.xz
 %endif
-URL:		http://timidity.sourceforge.net/
+URL:		https://timidity.sourceforge.net/
 License:	GPLv2+
 Group:		Sound
 Source1:	http://www.timidity.jp/dist/cfg/timidity.cfg
